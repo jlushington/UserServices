@@ -8,3 +8,4 @@ Step: build-step-git-source-0:
 {"level":"info","ts":1553468385.8370228,"logger":"fallback-logger","caller":"git-init/main.go:92","msg":"Successfully cloned \"https://github.com/jlushington/environment-evntxz-staging.git\" @ \"f055f9547a70c30b8968233ff5b2cc74fc0ab7e1\" in path \"/workspace\""}
 Step: build-step-build:
 
+Adding missing Helm repo: jenkins-x http://chartmuseum.jenkins-x.io
