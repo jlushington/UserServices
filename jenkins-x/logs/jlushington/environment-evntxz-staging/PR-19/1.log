@@ -1,0 +1,14 @@
+Step: build-step-credential-initializer:
+
+{"level":"warn","ts":1554599613.6852806,"logger":"fallback-logger","caller":"logging/config.go:65","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/test\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1554599613.6858191,"logger":"fallback-logger","caller":"creds-init/main.go:40","msg":"Credentials initialized."}
+Step: build-step-git-source-0:
+
+{"level":"warn","ts":1554599614.3945532,"logger":"fallback-logger","caller":"logging/config.go:65","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/test\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1554599614.6133924,"logger":"fallback-logger","caller":"git-init/main.go:92","msg":"Successfully cloned \"https://github.com/jlushington/environment-evntxz-staging.git\" @ \"7301a947912db7144844c264ed9dbe5faac86103\" in path \"/workspace\""}
+Step: build-step-build:
+
+Adding missing Helm repo: jenkins-x http://chartmuseum.jenkins-x.io
+Successfully added Helm repository jenkins-x.
+Adding missing Helm repo: releases http://jenkins-x-chartmuseum:8080
+Successfully added Helm repository releases.
