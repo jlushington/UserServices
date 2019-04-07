@@ -32,6 +32,7 @@ public class AuthController {
 	AuthService service;
 	
 	//AUTH USERS
+	@CrossOrigin(origins = "*") //TODO: NEED TO REMOVE AND INIT PROPER CORS
 	@PostMapping(value = "/authcheck", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<String> AuthCheck(@RequestBody String request){
 		log.info(request);

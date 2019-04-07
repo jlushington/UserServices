@@ -17,7 +17,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Builder
-@Document(collection="EndUser")
+@Document(collection="enduser")
 public class EndUserModel extends CoreModel{
 
 	@Id

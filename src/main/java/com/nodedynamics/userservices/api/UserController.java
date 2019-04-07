@@ -40,7 +40,7 @@ public class UserController {
 	@Autowired
 	EndUserService service;
 	
-
+	@CrossOrigin(origins = "*") //TODO: NEED TO REMOVE AND INIT PROPER CORS
 	@PostMapping(value = "/adduser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<String> AddUser(@RequestBody String request){
     	return service.Store(gson.fromJson(request, EndUserModel.class));
