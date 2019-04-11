@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<jjwt.version>0.9.0</jjwt.version>
 	</properties>
 
 	<dependencies>
@@ -93,23 +94,18 @@
     		<groupId>org.springframework.boot</groupId>
     		<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<dependency>
-	  		<groupId>com.auth0</groupId>
-	  		<artifactId>auth0-spring-security-api</artifactId>
-	  		<version>1.1.0</version>
-		</dependency>
 		
-		 <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>auth0</artifactId>
-            <version>1.9.1</version>
-        </dependency>
-         
-         <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20171018</version>
-        </dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+
+		<!-- For Java 8 Date/Time Support -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
                
         
 	</dependencies>

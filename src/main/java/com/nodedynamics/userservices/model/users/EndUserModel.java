@@ -1,6 +1,9 @@
 package com.nodedynamics.userservices.model.users;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -18,13 +21,14 @@ import lombok.ToString;
 @ToString
 @Builder
 @Document(collection="enduser")
-public class EndUserModel extends CoreModel{
+public class EndUserModel extends CoreModel implements Serializable{
 
 	@Id
 	private String iD;
 	private String username;
 	private String password;
 	private String passwordConfirm;
+	private Set<RoleModel> roles = new HashSet<>();
 	
 	@Indexed(unique = true)
 	private String email;

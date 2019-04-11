@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.WebSession;
 import com.google.gson.Gson;
@@ -28,6 +29,9 @@ public class EndUserService implements BaseService<EndUserModel> {
 	
 	@Autowired
 	Gson gson = new Gson();
+	
+	 @Autowired
+	 PasswordEncoder passwordEncoder;
 
 	@Override
 	public Mono<String> Store(EndUserModel Model) {
@@ -51,9 +55,10 @@ public class EndUserService implements BaseService<EndUserModel> {
 					
 					EndUserModel UBM = EndUserModel.builder()
 							.username(Model.getUsername())
-							.password(PasswordUtil.PasswordGen.EncPassword(Model.getPassword(), Salt))
+							.password(passwordEncoder.encode(Model.getPassword()))
 							.email(Model.getEmail())
-							.salt(Salt)
+							//.salt(Salt)
+							.roles(Model.getRoles())
 							.state(Global.UserState.PENDING.key)
 							.userTypeID(Global.UserType.ENDUSER.key)
 							.build();

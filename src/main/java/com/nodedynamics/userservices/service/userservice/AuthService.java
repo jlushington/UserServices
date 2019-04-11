@@ -5,6 +5,14 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.WebSession;
 
@@ -15,11 +23,13 @@ import com.nodedynamics.userservices.model.common.ResponseModel;
 import com.nodedynamics.userservices.model.users.EndUserModel;
 import com.nodedynamics.userservices.repo.UserRepository;
 import com.nodedynamics.userservices.service.BaseService;
-
 import reactor.core.publisher.Mono;
 
+import com.nodedynamics.userservices.security.JwtTokenProvider;
+import com.nodedynamics.userservices.security.UserPrincipal;
+
 @Service
-public class AuthService implements BaseService<EndUserModel>{
+public class AuthService implements BaseService<EndUserModel>, UserDetailsService {
 	
 	Logger log = LoggerFactory.getLogger(AuthService.class);
 	
@@ -30,6 +40,16 @@ public class AuthService implements BaseService<EndUserModel>{
 	
 	@Autowired
 	Gson gson = new Gson();
+	
+	 @Autowired
+	 PasswordEncoder passwordEncoder;
+	 
+	    @Autowired
+	    JwtTokenProvider tokenProvider;
+	 
+	    @Autowired
+	    AuthenticationManager authenticationManager;
+	 
 
 	@Override
 	public Mono<String> Store(EndUserModel Model) {
@@ -90,6 +110,24 @@ public class AuthService implements BaseService<EndUserModel>{
 		//GET DATA FROM DB
 		Optional<EndUserModel> rtnModelcheck=repo.findByEmail(Model.getEmail());
 		
+		Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                		Model.getEmail(),
+                		Model.getPassword()
+                )
+        );
+		
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		String jwt = tokenProvider.generateToken(authentication);
+		
+		return Mono.just(gson.toJson(ResponseModel.builder()
+				.MessageTypeID(Global.MessageTypeID.SUCCESS.key)
+				.MessageType(Global.MessageType.SUCCESS.key)
+				.Message(jwt)
+				.build()));
+		
+		/*
 		//GET PASSWORD FROM DB
 		if(rtnModelcheck.isPresent()) {
 			EndUserModel rtnModel= rtnModelcheck.get();
@@ -97,7 +135,9 @@ public class AuthService implements BaseService<EndUserModel>{
 			String DBPassword=rtnModel.getPassword();
 				
 			//GENERATE PASSWORD WITH SALT FROM DB
-			String GenPassword=PasswordUtil.PasswordGen.EncPassword(Model.getPassword(), rtnModel.getSalt());
+			//String GenPassword=PasswordUtil.PasswordGen.EncPassword(Model.getPassword(), rtnModel.getSalt());
+			String GenPassword=passwordEncoder.encode(Model.getPassword());
+			
 	
 			//CHECK IF PASSWORD MATCH
 			if(GenPassword.contains(DBPassword)) {
@@ -134,14 +174,31 @@ public class AuthService implements BaseService<EndUserModel>{
 					.Message("User Input Error")
 					.build()));
 		}
+		*/
 		
 	}
+	
+	 public UserPrincipal loadUserById(String id) {
+		 log.info("AuthService->loadUserById");
+		 EndUserModel user=repo.findById(id).get();
+		 
+		return UserPrincipal.create(user);
+	 }
 
 	@Override
 	public void Init(WebSession session) {
 	this.Session=session;
 			
 		
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		EndUserModel user=repo.findByEmail(username).get();
+		log.info("AuthService->loadUserByUsername");
+		// TODO Auto-generated method stub
+		return UserPrincipal.create(user);
 	}
 	
 

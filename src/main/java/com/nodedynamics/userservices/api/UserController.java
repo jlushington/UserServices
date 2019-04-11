@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.nodedynamics.userservices.common.Global;
-import com.nodedynamics.userservices.config.AppConfig;
 import com.nodedynamics.userservices.model.users.EndUserModel;
 import com.nodedynamics.userservices.service.userservice.EndUserService;
 import reactor.core.publisher.Mono;
@@ -29,8 +28,6 @@ import reactor.core.publisher.Mono;
 public class UserController {
 	
 
-	    @Autowired
-	    private AppConfig appConfig;
 	    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 		
@@ -40,7 +37,6 @@ public class UserController {
 	@Autowired
 	EndUserService service;
 	
-	@CrossOrigin(origins = "*") //TODO: NEED TO REMOVE AND INIT PROPER CORS
 	@PostMapping(value = "/adduser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<String> AddUser(@RequestBody String request){
     	return service.Store(gson.fromJson(request, EndUserModel.class));
