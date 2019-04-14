@@ -11,24 +11,19 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.nodedynamics.userservices.common.Global;
 import com.nodedynamics.userservices.model.users.EndUserModel;
 import com.nodedynamics.userservices.service.userservice.EndUserService;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/user")
-//@Controller
-//@Component
 public class UserController {
 	
 
-	    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 		
 	@Autowired
