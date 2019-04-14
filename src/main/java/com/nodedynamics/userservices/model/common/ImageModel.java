@@ -1,7 +1,6 @@
 package com.nodedynamics.userservices.model.common;
 
 import com.nodedynamics.userservices.model.CoreModel;
-import com.nodedynamics.userservices.model.common.ResponseModel.ResponseModelBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
