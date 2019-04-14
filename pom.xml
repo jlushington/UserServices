@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.nodedynamics</groupId>
 	<artifactId>userservices</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.4</version>
 	<name>userservices</name>
 	<description>Evntxz User Services</description>
 
