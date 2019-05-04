@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
+import com.nodedynamics.userservices.model.common.LoginTokenModel;
 import com.nodedynamics.userservices.model.users.EndUserModel;
 import com.nodedynamics.userservices.security.JwtTokenProvider;
 import com.nodedynamics.userservices.service.userservice.AuthService;
+import com.nodedynamics.userservices.service.userservice.AuthTokenService;
+
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -41,6 +44,9 @@ public class AuthController {
 	
 	@Autowired
 	AuthService service;
+	
+	@Autowired
+	AuthTokenService tokenService;
 	
 	//AUTH USERS
 	@CrossOrigin(origins = "*") //TODO: NEED TO REMOVE AND INIT PROPER CORS
@@ -86,6 +92,20 @@ public class AuthController {
 
 		gson.newBuilder().create();
 		return Mono.just("{this}");
+	}
+	
+	@CrossOrigin(origins = "*") //TODO: NEED TO REMOVE AND INIT PROPER CORS
+	@PostMapping(value = "/tokentransfer", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Mono<String> TokenTransfer(@RequestBody String request){
+		
+		return tokenService.Store(gson.fromJson(request, LoginTokenModel.class));
+	}
+	
+	@CrossOrigin(origins = "*") //TODO: NEED TO REMOVE AND INIT PROPER CORS
+	@PostMapping(value = "/tokenaccess", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Mono<String> TokenAccess(@RequestBody String request){
+		
+		return tokenService.TokenAccess(gson.fromJson(request, LoginTokenModel.class));
 	}
 
 	

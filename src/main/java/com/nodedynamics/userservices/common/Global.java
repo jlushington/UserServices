@@ -2,6 +2,17 @@ package com.nodedynamics.userservices.common;
 
 public class Global {
 	
+	public static enum TokeStorageTime
+	{
+		T10(10),
+		T30(30);
+		
+		public final int key;
+		private TokeStorageTime(final int key) {
+			this.key=key;
+		}
+	}
+	
 	public static enum ImageType
 	{
 		PROFILE("PROFILE"),
